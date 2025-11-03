@@ -9,21 +9,38 @@ public class PasswordService {
 
     private static final SecureRandom random = new SecureRandom();
 
-    public String generatePassword(int length) {
+    private static final String LOWERCASE = "abcdefghijklmnopqrstuvwxyz";
+    private static final String UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String NUMBERS = "0123456789";
+    private static final String SYMBOLS = "!@#$%^&*()-_=+[]{}|;:,.<>?/";
+
+    public String generatePassword(final int length,
+                                   final boolean includeSpecialChars,
+                                   final boolean includeNumbers,
+                                   final boolean includeUppercase,
+                                   final boolean includeLowercase) {
+
         if (length <= 0) {
             throw new IllegalArgumentException("Password length must be greater than zero");
         }
 
-        var sb = new StringBuilder(length);
-        // Intervalo de caracteres imprimíveis ASCII (32 a 126)
-        var lowerBound = 32;
-        var upperBound = 126;
+        var pool = new StringBuilder();
 
-        for (int i = 0; i < length; i++) {
-            int codePoint = lowerBound + random.nextInt(upperBound - lowerBound + 1);
-            sb.append((char) codePoint);
+        if (includeLowercase) pool.append(LOWERCASE);
+        if (includeUppercase) pool.append(UPPERCASE);
+        if (includeNumbers) pool.append(NUMBERS);
+        if (includeSpecialChars) pool.append(SYMBOLS);
+
+        if (pool.length() == 0) {
+            throw new IllegalArgumentException("At least one character type must be selected");
         }
 
-        return sb.toString();
+        var password = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            var index = random.nextInt(pool.length());
+            password.append(pool.charAt(index));
+        }
+
+        return password.toString();
     }
 }
