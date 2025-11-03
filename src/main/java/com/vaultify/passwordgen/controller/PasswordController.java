@@ -5,6 +5,7 @@ import com.vaultify.passwordgen.dto.PasswordRequest;
 import com.vaultify.passwordgen.dto.PasswordResponse;
 import com.vaultify.passwordgen.service.PasswordService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class PasswordController {
     }
 
     @PostMapping
-    public ResponseEntity<PasswordResponse> generatePassword(@RequestBody PasswordRequest request) {
+    public ResponseEntity<PasswordResponse> generatePassword(@Validated @RequestBody PasswordRequest request) {
         var password = passwordService.generatePassword(
                 request.length(),
                 request.includeSpecialChars(),
