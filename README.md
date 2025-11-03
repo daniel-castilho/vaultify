@@ -34,7 +34,11 @@ Vaultify é uma API REST simples para geração de senhas seguras usando caracte
 **Exemplo de Requisição:**
 ```json
 {
-    "length": 12
+  "length": 16,
+  "includeSpecialChars": true,
+  "includeNumbers": true,
+  "includeUppercase": true,
+  "includeLowercase": true
 }
 ```
 
@@ -50,7 +54,11 @@ Vaultify é uma API REST simples para geração de senhas seguras usando caracte
 ```bash
 curl -X POST http://localhost:8080/api/passwords \
   -H "Content-Type: application/json" \
-  -d '{"length": 16}'
+  -d '{"length": 16,
+  "includeSpecialChars": true,
+  "includeNumbers": true,
+  "includeUppercase": true,
+  "includeLowercase": true}'
 ```
 
 ## Licença
